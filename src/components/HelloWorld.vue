@@ -33,17 +33,18 @@
             </option>
           </select>
         </div>
-        <input type="submit" id="submit" value="提交" />
+        <input type="submit" id="submit" value="提交" @click="submit" />
       </div>
     </form>
   </div>
 </template>
 
 <script>
+import md5 from 'js-md5'
 export default {
   name: "HelloWorld",
   data() {
-    return{
+    return {
       options: [
         "公路",
         "汽车",
@@ -70,17 +71,35 @@ export default {
       works: ["大前锋", "小前锋", "中锋", "得分后卫", "控球后卫"],
       datas: {
         name: "",
-        faculty: "" ,
+        faculty: "",
         number: "",
-        work: ""
-      }
-    }
-  }
-
+        work: "",
+        verify: "",
+      },
+    };
+  },
+  methods: {
+    submit: function () {
+      this.datas.verify=md5(this.datas.name+" "+this.datas.faculty+" "+this.datas.number+" "+this.datas.work+" ").slice(7,20);
+      alert("您的身份码为"+this.datas.verify+",这个身份码将用于长大篮协微信小程序球员身份认证,请务必妥善保存。")
+    },
+  },
 };
 </script>
 
 <style scoped>
+#signUp {
+  background: #d9e7f6;
+  width: 500px;
+  height: 500px;
+  padding: 20px 0;
+  border: 3px solid white;
+  outline: 5px solid #d9e7f6;
+  margin: auto;
+}
+h1 {
+  margin-bottom: 60px;
+}
 a {
   color: #42b983;
 }
@@ -98,14 +117,18 @@ input {
   height: 24px;
 }
 .items {
-  margin: 30px auto;
+  margin: 40px auto;
   width: 300px;
   height: 30px;
+  font-size: 22px;
 }
 #submit {
-  width: 94px;
-  height: 30px;
+  width: 194px;
+  height: 50px;
   margin: 30px auto;
   float: none;
+  background: #f9e29f;
+  border: none;
+  font-size: 22px;
 }
 </style>
